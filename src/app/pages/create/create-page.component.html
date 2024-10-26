@@ -1,0 +1,39 @@
+<div @pageLoadingAnimation class="d-flex justify-content-center align-items-center">
+  <div class="col-4">
+    <a [routerLink]="routes.home" class="text-decoration-none text-black pt-4"><i class="bi bi-arrow-left fs-3"></i></a>
+
+    <h1 class="text-center mt-2" style="font-size: 48px">Create</h1>
+    <div class="form-group">
+      <label for="first-name" class="form-label">FIRST NAME</label>
+      <input type="text" id="first-name" class="form-input" placeholder="enter first name">
+    </div>
+    <div class="form-group mt-3">
+      <label for="last-name" class="form-label">LAST NAME</label>
+      <input type="text" id="last-name" class="form-input" placeholder="enter last name">
+    </div>
+    <div class="form-group mt-3">
+      <label for="employment-name" class="form-label">EMPLOYMENT DATE</label>
+      <input type="date" id="employment-name" class="form-input">
+    </div>
+
+    <div class="form-group mt-3">
+      <label for="employment-name" class="form-label">DEPARTMENT</label>
+
+      <select class="custom-select">
+        <option disabled selected value="">select department</option>
+        <option value="option2">Option 2</option>
+        <option value="option3">Option 3</option>
+      </select>
+
+    </div>
+    <div class="form-group mt-3">
+      <label for="salary" class="form-label">SALARY</label>
+      <input type="number" id="salary" class="form-input">
+    </div>
+
+    <div class="mt-5">
+      <button class="btn button-secondary w-100">Save</button>
+    </div>
+
+  </div>
+</div>

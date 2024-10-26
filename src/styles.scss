@@ -1,1 +1,142 @@
-/* You can add global styles to this file, and also import other style files */
+@font-face {
+  font-family: 'Roboto';
+  src: url('assets/fonts/Roboto/Roboto-Regular.ttf') format('truetype');
+  font-weight: normal;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'Rubik';
+  src: url('assets/fonts/Rubik/static/Rubik-Regular.ttf') format('truetype');
+  font-weight: normal;
+  font-style: normal;
+}
+
+*{
+  font-family: Roboto, sans-serif;
+  transition: all 0.15s ease-in-out;
+}
+
+
+.form-group {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  font-family: Arial, sans-serif;
+}
+
+.form-label {
+  font-size: 14px;
+  font-weight: bold;
+  letter-spacing: 2px;
+  color: #333;
+}
+
+.form-input {
+  padding: 10px;
+  font-size: 16px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  color: #575757;
+
+  &::placeholder {
+    color: #ccc; /* Placeholder color */
+  }
+}
+
+
+
+
+.custom-select {
+  appearance: none; /* Remove default appearance */
+  -webkit-appearance: none; /* For Safari */
+  -moz-appearance: none; /* For Firefox */
+
+  /* Customize the appearance */
+  background-color: #fff;
+  border: 1px solid #ccc;
+  padding: 10px;
+  border-radius: 5px;
+  cursor: pointer;
+
+  font-size: 16px;
+  color: #575757;
+
+  &::placeholder{
+      color: #ccc;
+  }
+}
+
+.button-secondary {
+  background-color: black;
+  color: white;
+
+
+}
+
+
+
+.btn{
+  padding: 10px 20px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 16px;
+
+  &.button-primary {
+    background-color: #80b3ff; /* Light blue background */
+    color: black; /* Text color */
+
+    &:hover {
+      background-color: #6699ff; /* Darker blue on hover */
+    }
+  }
+
+  &.button-secondary {
+    background-color: black;
+    color: white;
+
+    &:hover {
+      background-color: #333;
+    }
+  }
+
+  &.button-danger {
+    background-color: #ff5050;
+    color: white;
+
+    &:hover {
+      background-color: #ff2b2b;
+    }
+  }
+
+
+  &.button-warning {
+    background-color: #ffb11d;
+    color: white;
+
+    &:hover {
+      background-color: #ffab07;
+    }
+  }
+
+}
+
+.list-item{
+  display: block;
+  background-color: #e0e0e0; /* Light gray background */
+  padding: 10px 15px; /* Space inside the box */
+  border-radius: 8px; /* Rounded corners */
+  font-size: 16px; /* Text size */
+  color: #333; /* Text color */
+  margin-top: 5px;
+  text-decoration: none;
+
+  &:hover{
+    background-color: #d2d2d2; /* Light gray background */
+  }
+}
+

@@ -1,0 +1,10 @@
+<div @pageLoadingAnimation class="d-flex align-items-center justify-content-center">
+  <div class="mt-5 col-4">
+    <h1 class="text-center">Hello User</h1>
+    <div class="d-flex justify-content-end">
+      <a [routerLink]="routes.create" class="btn button-primary">+ ADD NEW</a>
+    </div>
+    <app-employee-list-item *ngFor="let employee of employees" [employee]="employee"></app-employee-list-item>
+  </div>
+
+</div>
