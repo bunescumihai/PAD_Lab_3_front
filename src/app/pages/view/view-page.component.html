@@ -1,57 +1,100 @@
-
-
-
 <div @pageLoadingAnimation class="container-lg g-0">
 
-    <a [routerLink]="routes.home" class="text-decoration-none text-black pt-4"><i class="bi bi-arrow-left fs-3"></i></a>
+  <span (click)="goBack()" class="text-decoration-none cursor-pointer text-black pt-4"><i class="bi bi-arrow-left fs-3"></i></span>
 
-    <h1 class="text-center mt-2" style="font-size: 48px">Personal file</h1>
+  <h1 class="text-center mt-2" style="font-size: 48px">Personal file</h1>
 
 
+  <ng-container *ngIf="employeeResponse | async as rs" >
+    <ng-container *ngIf="!rs.loading; else loading">
+      <ng-container *ngIf="!rs.error; else notFound">
+        <ng-container *ngTemplateOutlet="content; context: {$implicit: rs.object}"></ng-container>
+      </ng-container>
+    </ng-container>
+  </ng-container>
 
-  <div class="row row-cols-2 mx-0 g-0">
-    <div>
-      <p class="fs-3 my-1">First name: </p>
-      <p class="fs-3 my-1">Last name: </p>
-    </div>
-    <div>
-
-      <p class="fs-4 my-1">ID: </p>
-      <p class="fs-4 my-1">Department: </p>
-      <p class="fs-4 my-1">Date of employment: </p>
-      <p class="fs-4 my-1">Salary: </p>
-    </div>
-  </div>
-
-  <div class="d-flex justify-content-end">
-    <button class="btn button-warning me-2">UPDATE</button>
-    <button class="btn button-danger">DELETE</button>
-  </div>
-
-  <hr>
-
-  <div class="row row-cols-2 mx-0 g-0">
-    <div>
-      <p class="fs-3">Activity </p>
-      <p class="fs-5">Entry/exit: </p>
-
-      <div class="list-item" style="width: fit-content">data time</div>
-    </div>
-    <div >
-      <div class="d-flex justify-content-between gap-2">
-        <div class="form-group mt-3 w-50">
-          <label for="entry" class="form-label">Entry</label>
-          <input type="date" id="entry" class="form-input">
-        </div>
-        <div class="form-group mt-3 w-50">
-          <label for="exit" class="form-label">Exit</label>
-          <input type="date" id="exit" class="form-input">
-        </div>
-      </div>
-
-      <div class="d-flex justify-content-end mt-2">
-        <button class="btn button-primary">+</button>
-      </div>
-    </div>
-  </div>
+  <ng-container *ngTemplateOutlet="content; context: {$implicit: {id: 100}}"></ng-container>
 </div>
+
+<ng-template #notFound>
+  <app-not-found></app-not-found>
+</ng-template>
+
+<ng-template #loading>
+  <app-loading></app-loading>
+</ng-template>
+
+
+<ng-template #content let-employee>
+  <div @pageLoadingAnimation class="container-lg g-0">
+    <div class="row row-cols-2 mx-0 g-0">
+      <div>
+        <p class="fs-3 my-1">First name: </p>
+        <p class="fs-3 my-1">Last name: </p>
+      </div>
+      <div>
+
+        <p class="fs-4 my-1">ID: </p>
+        <p class="fs-4 my-1">Department: </p>
+        <p class="fs-4 my-1">Date of employment: </p>
+        <p class="fs-4 my-1">Salary: </p>
+      </div>
+    </div>
+
+    <div class="d-flex justify-content-end">
+      <a class="btn button-warning me-2" [routerLink]="[routes.edit, employee.id]">EDIT</a>
+      <button (click)="open(modal)" class="btn button-danger">DELETE</button>
+    </div>
+
+    <hr>
+
+    <div class="row row-cols-2 mx-0 g-0">
+      <div>
+        <p class="fs-3">Activity </p>
+        <p class="fs-5">Entry/exit: </p>
+
+        <div class="list-item" style="width: fit-content">data time</div>
+      </div>
+      <div >
+        <div class="d-flex justify-content-between gap-2">
+          <div class="form-group mt-3 w-50">
+            <label for="entry" class="form-label">Entry</label>
+            <input type="datetime-local" id="entry" class="form-input">
+          </div>
+          <div class="form-group mt-3 w-50">
+            <label for="exit" class="form-label">Exit</label>
+            <input type="datetime-local" id="exit" class="form-input">
+          </div>
+        </div>
+
+        <div class="d-flex justify-content-end mt-2">
+          <button class="btn button-primary">+</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+
+  <ng-template #modal let-modal>
+    <div class="modal-header d-block position-relative">
+      <h4 class="modal-title" id="modal-basic-title">Profile update</h4>
+      <button class="btn button-danger position-absolute top-0 end-0 me-2 mt-2 p-2" aria-label="Close" (click)="modal.dismiss('Cross click')"><i class="bi-x"></i></button>
+    </div>
+    <div class="modal-body">
+      <form>
+        <div class="mb-3">
+          <label>Date of birth</label>
+          <div class="input-group">
+            asdf
+          </div>
+        </div>
+      </form>
+    </div>
+    <div class="modal-footer">
+      <button type="button" class="btn btn-outline-secondary" (click)="modal.close('Save click')">Save</button>
+    </div>
+  </ng-template>
+
+
+</ng-template>

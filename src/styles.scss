@@ -1,3 +1,10 @@
+@import "../node_modules/bootstrap/scss/functions";
+@import "../node_modules/bootstrap/scss/variables";
+@import "../node_modules/bootstrap/scss/mixins";
+@import "../node_modules/bootstrap/scss/modal";
+@import "../node_modules/bootstrap/scss/transitions";
+
+
 @font-face {
   font-family: 'Roboto';
   src: url('assets/fonts/Roboto/Roboto-Regular.ttf') format('truetype');
@@ -21,11 +28,10 @@
 .form-group {
   display: flex;
   flex-direction: column;
-  gap: 8px;
-  font-family: Arial, sans-serif;
 }
 
 .form-label {
+  margin-top: 4px;
   font-size: 14px;
   font-weight: bold;
   letter-spacing: 2px;
@@ -33,6 +39,7 @@
 }
 
 .form-input {
+  margin-top: 4px;
   padding: 10px;
   font-size: 16px;
   border: 1px solid #ccc;
@@ -58,6 +65,7 @@
   padding: 10px;
   border-radius: 5px;
   cursor: pointer;
+  margin-top: 4px;
 
   font-size: 16px;
   color: #575757;
@@ -140,3 +148,12 @@
   }
 }
 
+.error-message{
+  color: #ff2b2b;
+  font-size: 12px;
+}
+
+
+.cursor-pointer{
+  cursor: pointer;
+}

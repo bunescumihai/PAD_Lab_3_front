@@ -16,7 +16,6 @@ export class EmployeeListItemComponent {
   @Input() employee!: EmployeeViewDto;
 
   readonly routes = {
-    edit: `/${APP_ROUTER_TOKENS.EDIT}`,
-    home: `/${APP_ROUTER_TOKENS.HOME}`
+    view: `/${APP_ROUTER_TOKENS.VIEW}`,
   }
 }

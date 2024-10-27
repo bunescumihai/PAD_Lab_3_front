@@ -15,11 +15,11 @@ export const routes: Routes = [
     component: CreatePage,
   },
   {
-    path: APP_ROUTER_TOKENS.EDIT,
+    path: `${APP_ROUTER_TOKENS.EDIT}/:id`,
     component: EditPage,
   },
   {
-    path: APP_ROUTER_TOKENS.VIEW,
+    path: `${APP_ROUTER_TOKENS.VIEW}/:id`,
     component: ViewPage,
   },
 ];
