@@ -13,7 +13,6 @@
     </ng-container>
   </ng-container>
 
-  <ng-container *ngTemplateOutlet="content; context: {$implicit: {id: 100}}"></ng-container>
 </div>
 
 <ng-template #notFound>
@@ -42,7 +41,7 @@
     </div>
 
     <div class="d-flex justify-content-end">
-      <a class="btn button-warning me-2" [routerLink]="[routes.edit, employee.id]">EDIT</a>
+      <a class="btn button-warning me-2" [routerLink]="[routes.edit, 1]">EDIT</a>
       <button (click)="open(modal)" class="btn button-danger">DELETE</button>
     </div>
 
@@ -77,22 +76,13 @@
 
 
   <ng-template #modal let-modal>
-    <div class="modal-header d-block position-relative">
-      <h4 class="modal-title" id="modal-basic-title">Profile update</h4>
-      <button class="btn button-danger position-absolute top-0 end-0 me-2 mt-2 p-2" aria-label="Close" (click)="modal.dismiss('Cross click')"><i class="bi-x"></i></button>
-    </div>
-    <div class="modal-body">
-      <form>
-        <div class="mb-3">
-          <label>Date of birth</label>
-          <div class="input-group">
-            asdf
-          </div>
-        </div>
-      </form>
+    <div class="modal-header">
+      <h3 class="modal-title" id="modal-basic-title">Are you sure?</h3>
+      <button class="btn position-absolute top-0 end-0 me-2 mt-2 p-2" aria-label="Close" (click)="modal.dismiss('Cross click')"><i class="bi-x"></i></button>
     </div>
     <div class="modal-footer">
-      <button type="button" class="btn btn-outline-secondary" (click)="modal.close('Save click')">Save</button>
+      <button type="button" [disabled]="deleting()" class="btn button-secondary" (click)="modal.close()">Close</button>
+      <button type="button" [disabled]="deleting()" class="btn button-danger" (click)="delete()"><span class="loader-simple me-2" *ngIf="deleting()"></span>Yes</button>
     </div>
   </ng-template>
 

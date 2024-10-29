@@ -1,4 +1,4 @@
-import {Component, inject, OnInit, TemplateRef} from '@angular/core';
+import {Component, inject, OnInit, signal, TemplateRef} from '@angular/core';
 import {APP_ROUTER_TOKENS} from "../../app-router-tokens";
 import {ActivatedRoute, RouterLink, RouterModule} from "@angular/router";
 import {pageLoadingAnimation} from "../../animations/page-loading-animation";
@@ -36,6 +36,7 @@ export class ViewPage implements OnInit{
   }
 
   employeeId!: number;
+  deleting = signal<boolean>(false);
 
 
   open(content: TemplateRef<any>) {
@@ -52,14 +53,19 @@ export class ViewPage implements OnInit{
   }
 
   delete(){
-    let employeeId = this.activatedRoute.snapshot.params['id'];
-
-    this.employeeRepository.deleteEmployee(this.employeeId).subscribe({
-
-    })
+    this.employeeRepository.deleteEmployee(this.employeeId).pipe(
+      tap(data => {
+        this.deleting.set(data.loading);
+        console.log(data);
+      })
+    ).subscribe();
   }
 
   goBack() {
     this.location.back()
+  }
+
+  deleteEmployee() {
+
   }
 }

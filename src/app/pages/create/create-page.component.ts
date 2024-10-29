@@ -1,4 +1,4 @@
-import {Component, inject, signal} from '@angular/core';
+import {Component, inject, OnInit, signal} from '@angular/core';
 import {pageLoadingAnimation} from "../../animations/page-loading-animation";
 import {APP_ROUTER_TOKENS} from "../../app-router-tokens";
 import {RouterLink} from "@angular/router";
@@ -18,7 +18,7 @@ import {NgIf, Location} from "@angular/common";
   styleUrl: './create-page.component.scss',
   animations: pageLoadingAnimation
 })
-export class CreatePage{
+export class CreatePage implements OnInit{
 
   private readonly location = inject(Location);
   readonly routes = {
@@ -57,4 +57,9 @@ export class CreatePage{
   goBack() {
     this.location.back();
   }
+
+  ngOnInit(): void {
+    this.createEmployeeForm.reset();
+  }
+
 }

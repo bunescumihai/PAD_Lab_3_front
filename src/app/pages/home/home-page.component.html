@@ -4,7 +4,23 @@
     <div class="d-flex justify-content-end">
       <a [routerLink]="routes.create"  class="btn button-primary">+ ADD NEW</a>
     </div>
-    <app-employee-list-item *ngFor="let employee of employees" [employee]="employee"></app-employee-list-item>
+
+    <ng-container *ngIf="employeesResponse | async as rs" >
+      <ng-container *ngIf="!rs.loading; else loading">
+        <ng-container *ngIf="!rs.error; else notFound">
+          <app-employee-list-item *ngFor="let employee of rs.object" [employee]="employee"></app-employee-list-item>
+        </ng-container>
+      </ng-container>
+    </ng-container>
+
   </div>
 
 </div>
+
+<ng-template #notFound>
+  <app-not-found></app-not-found>
+</ng-template>
+
+<ng-template #loading>
+  <app-loading></app-loading>
+</ng-template>
