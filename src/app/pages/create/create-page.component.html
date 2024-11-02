@@ -27,15 +27,16 @@
       <label for="departmentId" class="form-label">DEPARTMENT</label>
 
       <select id="departmentId" formControlName="departmentId" class="custom-select">
-        <option disabled selected value="">select department</option>
-        <option value="1">Option 2</option>
-        <option value="2">Option 3</option>
+        <option disabled selected value="null">select department</option>
+        <option value="1">Human Resources</option>
+        <option value="2">Finance</option>
+        <option value="3">Engineering</option>
       </select>
       <div *ngIf="departmentId.errors?.['required'] && departmentId.touched || showErrors() && departmentId.errors?.['required']" class="error-message">Select a department</div>
     </div>
     <div class="form-group mt-3">
       <label for="salary" class="form-label">SALARY</label>
-      <input formControlName="salary" type="number" id="salary" class="form-input">
+      <input value="0" formControlName="salary" type="number" id="salary" class="form-input">
       <div *ngIf="salary.errors?.['required'] && salary.touched || showErrors() && salary.errors?.['required']" class="error-message">Specify a salary</div>
     </div>
 

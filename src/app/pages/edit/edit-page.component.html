@@ -51,8 +51,9 @@
 
       <select id="departmentId" formControlName="departmentId" class="custom-select">
         <option disabled selected value="">select department</option>
-        <option value="1">Option 2</option>
-        <option value="2">Option 3</option>
+        <option value="1">Human Resources</option>
+        <option value="2">Finance</option>
+        <option value="3">Engineering</option>
       </select>
       <div *ngIf="departmentId.errors?.['required'] && departmentId.touched || showErrors() && departmentId.errors?.['required']" class="error-message">Select a department</div>
     </div>
