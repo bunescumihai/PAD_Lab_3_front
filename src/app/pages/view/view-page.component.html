@@ -28,20 +28,20 @@
   <div @pageLoadingAnimation class="container-lg g-0">
     <div class="row row-cols-2 mx-0 g-0">
       <div>
-        <p class="fs-3 my-1">First name: </p>
-        <p class="fs-3 my-1">Last name: </p>
+        <p class="fs-3 my-1">First name: {{employee.firstName}}</p>
+        <p class="fs-3 my-1">Last name: {{employee.lastName}}</p>
       </div>
       <div>
 
-        <p class="fs-4 my-1">ID: </p>
-        <p class="fs-4 my-1">Department: </p>
-        <p class="fs-4 my-1">Date of employment: </p>
-        <p class="fs-4 my-1">Salary: </p>
+        <p class="fs-4 my-1">ID: {{employee.id}}</p>
+        <p class="fs-4 my-1">Department: {{employee.department.name}}</p>
+        <p class="fs-4 my-1">Date of employment: {{employee.employmentDate}}</p>
+        <p class="fs-4 my-1">Salary: {{employee.salary}}</p>
       </div>
     </div>
 
     <div class="d-flex justify-content-end">
-      <a class="btn button-warning me-2" [routerLink]="[routes.edit, 1]">EDIT</a>
+      <a class="btn button-warning me-2" [routerLink]="[routes.edit, employee.id]">EDIT</a>
       <button (click)="open(modal)" class="btn button-danger">DELETE</button>
     </div>
 
@@ -52,22 +52,28 @@
         <p class="fs-3">Activity </p>
         <p class="fs-5">Entry/exit: </p>
 
-        <div class="list-item" style="width: fit-content">data time</div>
+        <ng-container *ngIf="activityResponse | async as rs" >
+          <ng-container *ngIf="!rs.loading; else loading">
+              <app-activity *ngFor="let activity of rs.object" [activity]="activity"></app-activity>
+          </ng-container>
+        </ng-container>
       </div>
       <div >
-        <div class="d-flex justify-content-between gap-2">
-          <div class="form-group mt-3 w-50">
-            <label for="entry" class="form-label">Entry</label>
-            <input type="datetime-local" id="entry" class="form-input">
+        <form [formGroup]="createActivityForm" action="">
+          <div class="d-flex justify-content-between gap-2">
+            <div class="form-group mt-3 w-50">
+              <label for="entry" class="form-label">Entry</label>
+              <input formControlName="entry" type="datetime-local" id="entry" class="form-input">
+            </div>
+            <div class="form-group mt-3 w-50">
+              <label for="exit" class="form-label">Exit</label>
+              <input formControlName="exit" type="datetime-local" id="exit" class="form-input">
+            </div>
           </div>
-          <div class="form-group mt-3 w-50">
-            <label for="exit" class="form-label">Exit</label>
-            <input type="datetime-local" id="exit" class="form-input">
-          </div>
-        </div>
+        </form>
 
         <div class="d-flex justify-content-end mt-2">
-          <button class="btn button-primary">+</button>
+          <button [disabled]="!createActivityForm.valid" class="btn button-primary" (click)="saveActivity()"><span class="loader-simple me-2" *ngIf="savingActivity()"></span>+</button>
         </div>
       </div>
     </div>

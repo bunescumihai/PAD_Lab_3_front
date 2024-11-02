@@ -6,6 +6,7 @@ import {catchError, map, Observable, of, startWith} from "rxjs";
 import {ApiResponse} from "../api/api-response";
 import {EmployeeViewDto} from "../../models/employee/dtos/employee-view.dto";
 import {Employee} from "../../models/employee/employee.model";
+import {CreateEmployeeDto} from "../../models/employee/dtos/create-employee.dto";
 
 @Injectable({
   providedIn: 'root'
@@ -55,7 +56,7 @@ export class EmployeeRepositoryService {
       }))
     )
 
-  createEmployee(employee: Employee){
+  createEmployee(employee: CreateEmployeeDto){
 
     return this.http.post<Employee>(`/api/employee`, employee)
       .pipe(

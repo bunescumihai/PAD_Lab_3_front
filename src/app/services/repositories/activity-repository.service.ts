@@ -16,8 +16,8 @@ export class ActivityRepositoryService {
   private readonly http = inject(HttpClient);
   constructor() { }
 
-  getActivitiesByEmployeeById(id: number): Observable<ApiResponse<Activity>>{
-    return this.http.get<Activity>(`/api/activity/byEmployee/${id}`)
+  getActivitiesByEmployeeById(id: number): Observable<ApiResponse<Array<Activity>>>{
+    return this.http.get<Array<Activity>>(`/api/activity/${id}`)
       .pipe(
         map(data => ({
           loading: false,

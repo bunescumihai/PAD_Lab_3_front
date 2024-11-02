@@ -1,5 +1,5 @@
 export interface Activity{
-  entryDate: string;
-  exitDate: string;
+  entry: string;
+  exit: string;
   employeeId: number;
 }
