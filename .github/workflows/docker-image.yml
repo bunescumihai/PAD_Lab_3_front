@@ -10,9 +10,9 @@ jobs:
     steps:
       - name: checkout
         uses: actions/checkout@v4
+      - name: Log in to DigitalOcean Container Registry
+        run: echo "${{ secrets.DO_CONTAINER_REGISTRY_KEY }}" | docker login -u "eugen.bonta@isa.utm.md" --password-stdin registry.digitalocean.com
       - name: build image
         run: docker build . -t registry.digitalocean.com/bontaregistry/front:latest
       - name: push image to docker hub
-        run: |
-          docker login -u eugen.bonta@isa.utm.md -p ${{ secrets.DO_CONTAINER_REGISTRY_KEY }}
-          docker push registry.digitalocean.com/bontaregistry/front:latest
+        run: docker push registry.digitalocean.com/bontaregistry/front:latest
