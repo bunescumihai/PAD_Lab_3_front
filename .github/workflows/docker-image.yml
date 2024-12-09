@@ -29,7 +29,7 @@ jobs:
           sudo mv doctl /usr/local/bin
 
       - name: Authenticate doctl
-        run: doctl auth init -t ${{ secrets.PASSWORD }}
+        run: doctl auth init -t ${{ secrets.DO_CONTAINER_REGISTRY_KEY }}
 
       - name: Fetch kubeconfig for Kubernetes cluster
         run: doctl kubernetes cluster kubeconfig save k8s-1-31-1-do-4-fra1-1733171134531
