@@ -16,3 +16,23 @@ jobs:
         run: docker build . -t registry.digitalocean.com/bontaregistry/front:latest
       - name: push image to docker hub
         run: docker push registry.digitalocean.com/bontaregistry/front:latest
+  deploy:
+    needs: [publish_images]
+    runs-on: ubuntu-latest
+    steps:
+      - name: checkout
+        uses: actions/checkout@v4
+
+      - name: Install doctl
+        run: |
+          curl -fsSL https://github.com/digitalocean/doctl/releases/download/v1.119.0/doctl-1.119.0-linux-amd64.tar.gz | tar -xz
+          sudo mv doctl /usr/local/bin
+
+      - name: Authenticate doctl
+        run: doctl auth init -t ${{ secrets.PASSWORD }}
+
+      - name: Fetch kubeconfig for Kubernetes cluster
+        run: doctl kubernetes cluster kubeconfig save k8s-1-31-1-do-4-fra1-1733171134531
+        
+      - name: Deploy to Kubernetes
+        run: kubectl rollout restart deployment/front-deployment
