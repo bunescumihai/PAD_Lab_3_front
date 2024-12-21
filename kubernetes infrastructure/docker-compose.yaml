@@ -1,0 +1,99 @@
+services:
+  mongo1:
+    image: registry.digitalocean.com/bontaregistry/mongo:latest
+    container_name: mongo1
+    environment:
+      MONGO_REPLICA_SET_NAME: "rs0"
+    command: >
+      bash -c "
+      mongod --replSet rs0 --bind_ip_all &&
+      until mongo --host mongo1 --eval 'print(\"Waiting for MongoDB to start\")'; do sleep 1; done &&
+      mongo --host mongo1 --eval '
+      rs.initiate({
+        _id: \"rs0\",
+        members: [
+          { _id: 0, host: \"mongo1:27017\" },
+          { _id: 1, host: \"mongo2:27017\" },
+          { _id: 2, host: \"mongo3:27017\" }
+        ]
+      });
+      '"
+    networks:
+      - my-net
+    ports:
+      - "27017:27017"
+    volumes:
+      - mongo1-pvc:/data/db
+
+  mongo2:
+    image: registry.digitalocean.com/bontaregistry/mongo:latest
+    container_name: mongo2
+    environment:
+      MONGO_REPLICA_SET_NAME: "rs0"
+    command: >
+      mongod --replSet rs0 --bind_ip_all
+    networks:
+      - my-net
+    ports:
+      - "27018:27017"
+    volumes:
+      - mongo2-pvc:/data/db
+
+  mongo3:
+    image: registry.digitalocean.com/bontaregistry/mongo:latest
+    container_name: mongo3
+    environment:
+      MONGO_REPLICA_SET_NAME: "rs0"
+    command: >
+      mongod --replSet rs0 --bind_ip_all
+    networks:
+      - my-net
+    ports:
+      - "27019:27017"
+    volumes:
+      - mongo3-pvc:/data/db
+
+  redis:
+    image: registry.digitalocean.com/bontaregistry/redis:alpine
+    container_name: redis
+    networks:
+      - my-net
+    ports:
+      - "6379:6379"
+  
+  app:
+    image: registry.digitalocean.com/bontaregistry/hr:latest
+    container_name: app
+    environment:
+      SPRING_DATA_MONGODB_URI: mongodb://mongo1:27017,mongo2:27017,mongo3:27017/hr?replicaSet=rs0
+      SPRING_REDIS_HOST: redis
+    depends_on:
+      - mongo1
+      - mongo2
+      - mongo3
+      - redis
+    restart: always
+    networks:
+      - my-net
+    ports:
+      - "8080:8080"
+
+  nginx:
+    image: registry.digitalocean.com/bontaregistry/front:latest
+    container_name: nginx
+    networks:
+      - my-net
+    ports:
+      - "80:80"
+
+networks:
+  my-net:
+    driver: bridge
+
+volumes:
+  mongo1-pvc:
+    external: true
+  mongo2-pvc:
+    external: true
+  mongo3-pvc:
+    external: true
