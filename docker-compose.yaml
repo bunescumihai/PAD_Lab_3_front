@@ -1,0 +1,91 @@
+services:
+  mongo1:
+    image: mongo:latest
+    container_name: mongo1
+    ports:
+      - 27017:27017
+    environment:
+      MONGO_REPLICA_SET_NAME: "rs0"
+    volumes:
+      - D:\Fac\PAD\docker_mongo\mongo1:/data/db
+    command: >
+      bash -c "
+      mongod --replSet rs0 --bind_ip_all &&
+      until mongo --host mongo1 --eval 'print(\"Waiting for MongoDB to start\")'; do sleep 1; done &&
+      mongo --host mongo1 --eval '
+      rs.initiate({
+        _id: \"rs0\",
+        members: [
+          { _id: 0, host: \"mongo1:27017\" },
+          { _id: 1, host: \"mongo2:27017\" },
+          { _id: 2, host: \"mongo3:27017\" },
+        ]
+      });
+      '"
+    networks:
+      - my-net
+
+  mongo2:
+    image: mongo:latest
+    container_name: mongo2
+    environment:
+      MONGO_REPLICA_SET_NAME: "rs0"
+    volumes:
+      - D:\Fac\PAD\docker_mongo\mongo2:/data/db
+    command: >
+      mongod --replSet rs0 --bind_ip_all
+    ports:
+      - "27018:27017"
+    networks:
+      - my-net
+    
+  mongo3:
+    image: mongo:latest
+    container_name: mongo3
+    environment:
+      MONGO_REPLICA_SET_NAME: "rs0"
+    volumes:
+      - D:\Fac\PAD\docker_mongo\mongo3:/data/db
+    command: >
+      mongod --replSet rs0 --bind_ip_all
+    ports:
+      - "27019:27017"
+    networks:
+      - my-net
+
+  redis:
+    image: redis:alpine
+    ports:
+      - "6379:6379"
+    networks:
+      - my-net
+
+  app:
+    image: hr
+    ports:
+      - "8080"
+    environment:
+      SPRING_DATA_MONGODB_URI: mongodb://mongo1:27017,mongo2:27017,mongo3:27017/hr?replicaSet=rs0
+      SPRING_REDIS_HOST: redis
+    depends_on:
+      - mongo1
+      - mongo2
+      - mongo3
+    restart: always
+    deploy:
+      replicas: 2
+      restart_policy:
+        condition: on-failure
+    networks:
+      - my-net
+
+  nginx:
+    image: front
+    ports:
+      - "80:80"
+    networks:
+      - my-net
+
+networks:
+  my-net:
+    driver: bridge
